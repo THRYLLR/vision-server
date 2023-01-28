@@ -29,7 +29,7 @@ poseEstimator = Estimator()
 
 while True:
   ret, image = video.read()
-  image = cv.cvtColor(cv.COLOR_BGR2GRAY)
+  image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
   tagPoses = poseEstimator.estimate(image)
 
