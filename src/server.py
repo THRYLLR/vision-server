@@ -43,6 +43,7 @@ for tag in tagTable.getSubTables():
 
 while True:
   ret, image = video.read()
+  image = cv.rotate(image, cv.ROTATE_180)
   image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
   tagPoses = poseEstimator.estimate(image)
