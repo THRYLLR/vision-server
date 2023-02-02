@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 import cv2 as cv
 
 from estimator import Estimator
+import cameras
 
 def updateNetworkTag(tagTable, i, r, t):
   table = tagTable.getSubTable(str(i))
@@ -30,18 +31,12 @@ parser.add_argument("-c", "--camera_id")
 parser.add_argument("--nt3", action = "store_true")
 args = parser.parse_args()
 
-# nt = ntcore.NetworkTableInstance.getDefault()
-# if args.nt3 == True: nt.startClient3("VisionServer")
-# else: nt.startClient4("VisionServer")
-# nt.setServer(args.server)
-# mainTable = nt.getTable("SmartDashboard/VisionServer")
-
 NetworkTables.initialize(server = args.server)
 mainTable = NetworkTables.getTable("SmartDashboard/VisionServer")
 tagTable = mainTable.getSubTable("Tags")
 
 video = cv.VideoCapture(int(args.camera_id))
-poseEstimator = Estimator()
+poseEstimator = Estimator(cameras.WEIRD_USB_CAMERA)
 
 for tag in tagTable.getSubTables():
   updateNetworkTag(tagTable, tag, [[0], [0], [0]], [[0], [0], [0]])
