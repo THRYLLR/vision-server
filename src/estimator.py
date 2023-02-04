@@ -3,9 +3,9 @@ import numpy as np
 
 class Estimator:
   def __init__(self, camera):
-    self.matrix = np.matrix(camera.matrix)
+    self.matrix = np.matrix(camera["matrix"])
 
-    self.distCoeffs = np.matrix(camera.distCoeffs)
+    self.distCoeffs = np.matrix(camera["distCoeffs"])
 
     self.objectPoints = np.matrix([
       [-3, 3, 0],
@@ -25,6 +25,10 @@ class Estimator:
     corners, ids, rejected = self.detector.detectMarkers(image)
     for corner in corners:
       ret, rvec, tvec = cv.solvePnP(self.objectPoints, corner, self.matrix, self.distCoeffs)
-      out.append((rvec, tvec))
+      rmat = cv.Rodrigues(rvec)[0]
+      rmat = np.matrix(rmat).T
+      pmat = -rmat * np.matrix(tvec)
+
+      out.append((np.ravel(rvec), np.ravel(pmat.reshape(1, 3))))
 
     return out

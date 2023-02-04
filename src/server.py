@@ -13,13 +13,13 @@ def updateNetworkTag(tagTable, i, r, t):
   rot = table.getSubTable("Rot")
   trans = table.getSubTable("Trans")
 
-  rot.putNumber("X", r[0][0])
-  rot.putNumber("Y", r[1][0])
-  rot.putNumber("Z", r[2][0])
+  rot.putNumber("X", r[0])
+  rot.putNumber("Y", r[1])
+  rot.putNumber("Z", r[2])
 
-  trans.putNumber("X", t[0][0])
-  trans.putNumber("Y", t[1][0])
-  trans.putNumber("Z", t[2][0])
+  trans.putNumber("X", t[0])
+  trans.putNumber("Y", t[1])
+  trans.putNumber("Z", t[2])
 
 parser = ArgumentParser(
   description = "AprilTag pose estimation solution meant to run on an NVIDIA Jetson Nano.",
@@ -39,7 +39,7 @@ video = cv.VideoCapture(int(args.camera_id))
 poseEstimator = Estimator(cameras.WEIRD_USB_CAMERA)
 
 for tag in tagTable.getSubTables():
-  updateNetworkTag(tagTable, tag, [[0], [0], [0]], [[0], [0], [0]])
+  updateNetworkTag(tagTable, tag, [0, 0, 0], [0, 0, 0])
 
 while True:
   ret, image = video.read()
